@@ -96,6 +96,10 @@ To build a **real-world intelligent recommendation system** that demonstrates:
 * Personalization techniques
 
 ---
+## Mock UI
+<img width="1024" height="1536" alt="ChatGPT Image Mar 29, 2026, 10_14_09 AM" src="https://github.com/user-attachments/assets/073a6b28-3165-4acc-a831-f850a65b266b" />
+
+
 
 ## 📸 Demo (Optional)
 
