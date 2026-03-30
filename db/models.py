@@ -17,4 +17,4 @@ class FoodItem(Base):
     cuisine = Column(String)
     price = Column(Integer)
     type = Column(String)
-    
+    category = Column(String)  # main / drink / side / dessert

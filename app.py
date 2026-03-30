@@ -29,16 +29,29 @@ def recommend(req: Request):
     recommendations = get_food_candidates(
         intent,
         user_prefs=user_prefs,
-        context=context
+        context=context,
+        user_id=req.user_id
     )
 
     # 5. Generate response using top results
-    reply = generate_response(recommendations[:5])
+    reply = generate_response(recommendations["items"])
 
     return {
         "intent": intent,
         "context": context,
-        "recommendations": recommendations[:5],
+        "recommendations": recommendations["items"],
+        "combo_meal": recommendations["combo"],
         "reply": reply
     }
+
+#     {
+#   "combo_meal": {
+#     "main": { "name": "Chicken Biryani" },
+#     "drink": { "name": "Coke" },
+#     "side": { "name": "Raita" }
+#   }
+# }
+
+# "combo_reason": "A balanced meal with main dish, drink, and side"
+#
     
