@@ -101,7 +101,39 @@ def get_food_candidates(intent, user_prefs={}, context={}):
     # sort by score
     ranked = sorted(results, key=lambda x: x["score"], reverse=True)
 
-    return ranked[:5]
+    top_items = ranked[:10]
+
+    combo = generate_combo_meal(top_items)
+
+    return {
+        "items": ranked[:5],
+        "combo": combo
+    }
+
+    # return ranked[:5]
+
+def generate_combo_meal(foods):
+    main = None
+    drink = None
+    side = None
+
+    # pick best items by category
+    for food in foods:
+        if food.get("category") == "main" and not main:
+            main = food
+        elif food.get("category") == "drink" and not drink:
+            drink = food
+        elif food.get("category") == "side" and not side:
+            side = food
+
+    combo = {
+        "main": main,
+        "drink": drink,
+        "side": side
+    }
+
+    return combo
+
 
 #     Expected Response
 # [
