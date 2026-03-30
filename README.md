@@ -16,7 +16,21 @@ It combines:
 * 🤖 AI-powered suggestion generation
 
 to deliver **personalized food recommendations**.
-
+```
+User
+ ↓
+API Gateway
+ ↓
+FastAPI (Docker container)
+ ↓
+-------------------------
+| Recommender Engine     |
+| LLM Service           |
+| Feedback System       |
+-------------------------
+ ↓
+PostgreSQL DB + Redis
+```
 ---
 
 ## ✨ Key Features
@@ -30,6 +44,7 @@ to deliver **personalized food recommendations**.
   * Hot weather → Cold drinks, light meals
 
 ---
+
 
 ### 📍 Location-Aware Suggestions
 
