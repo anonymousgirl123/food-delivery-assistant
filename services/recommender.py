@@ -12,10 +12,23 @@ def calculate_score_and_reason(food, intent, user_prefs, context):
         reasons.append(f"matches your preference for {food.cuisine} food")
 
     # 2. Budget match
+    # Budget scoring
+    # "Suggest something spicy under 150"
+    # [
+    #     {
+    #         "name": "Paneer Roll",
+    #         "price": 120,
+    #         "score": 85,
+    #         "reason": "fits your budget, matches your preference for Indian food"
+    #     }
+    # ]
     if intent.get("budget"):
         if food.price <= intent["budget"]:
             score += 20
             reasons.append("fits your budget")
+        else:
+            score -= 10
+            reasons.append("slightly above your budget")
 
     # 3. Weather match
     weather = context.get("weather")
@@ -65,6 +78,9 @@ def get_food_candidates(intent, user_prefs={}, context={}):
 
     if intent.get("cuisine"):
         query = query.filter(FoodItem.cuisine == intent["cuisine"])
+
+    if intent.get("budget"):
+        query = query.filter(FoodItem.price <= intent["budget"])
 
     foods = query.all()
 

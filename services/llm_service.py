@@ -1,3 +1,5 @@
+import re
+
 def detect_mood(message: str):
     message = message.lower()
 
@@ -15,10 +17,21 @@ def detect_mood(message: str):
 
     return "neutral"
 
+
+
+def extract_budget(message: str):
+    # detect numbers like 200, 300 etc.
+    match = re.search(r'(\d+)', message)
+    if match:
+        return int(match.group(1))
+    return None
+
 def extract_intent(message: str):
     intent = {
         "text": message,
-        "mood": detect_mood(message)
+        "mood": detect_mood(message),
+        "budget": extract_budget(message)
     }
 
     return intent
+
