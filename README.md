@@ -105,7 +105,8 @@ To build a **real-world intelligent recommendation system** that demonstrates:
 
 *Add screenshots or GIFs here*
 
----
+---<img width="1536" height="1024" alt="ChatGPT Image Mar 30, 2026, 07_54_24 PM" src="https://github.com/user-attachments/assets/632a38fa-80cc-49b2-8895-9d68b3596fdb" />
+
 
 ## ⚙️ Installation
 
