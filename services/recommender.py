@@ -33,6 +33,25 @@ def calculate_score_and_reason(food, intent, user_prefs, context):
         score += 20
         reasons.append(f"perfect for {food.type}")
 
+    # Mood-based scoring
+    mood = intent.get("mood")
+
+    if mood == "comfort" and food.type in ["hot", "soup"]:
+        score += 20
+        reasons.append("good for a comforting mood")
+
+    elif mood == "healthy" and food.type in ["salad", "light"]:
+        score += 20
+        reasons.append("fits your healthy mood")
+
+    elif mood == "treat" and food.type in ["dessert"]:
+        score += 20
+        reasons.append("perfect for a treat")
+
+    elif mood == "craving":
+        score += 10
+        reasons.append("satisfies your craving")
+
     return score, reasons
 
 
@@ -81,3 +100,9 @@ def get_food_candidates(intent, user_prefs={}, context={}):
 #     "reason": "matches your preference for Indian food"
 #   }
 # ]
+# mood based
+# {
+#   "name": "Hot Soup",
+#   "score": 85,
+#   "reason": "good for a comforting mood, great for rainy weather"
+# }

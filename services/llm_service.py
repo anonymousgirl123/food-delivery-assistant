@@ -1,12 +1,24 @@
-def extract_intent(message: str):
+def detect_mood(message: str):
     message = message.lower()
-    intent = {"meal_time": None, "cuisine": None, "budget": None, "taste": None}
 
-    if "breakfast" in message: intent["meal_time"] = "breakfast"
-    elif "lunch" in message: intent["meal_time"] = "lunch"
-    elif "dinner" in message: intent["meal_time"] = "dinner"
+    if any(word in message for word in ["tired", "sad", "stressed"]):
+        return "comfort"
 
-    if "cheap" in message: intent["budget"] = "low"
-    if "spicy" in message: intent["taste"] = "spicy"
+    if any(word in message for word in ["happy", "celebrate"]):
+        return "treat"
+
+    if any(word in message for word in ["healthy", "fit", "diet"]):
+        return "healthy"
+
+    if any(word in message for word in ["spicy", "craving"]):
+        return "craving"
+
+    return "neutral"
+
+def extract_intent(message: str):
+    intent = {
+        "text": message,
+        "mood": detect_mood(message)
+    }
 
     return intent
