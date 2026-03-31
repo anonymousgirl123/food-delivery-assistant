@@ -1,2 +1,29 @@
+def generate_ai_explanation(food, context, user):
+    prompt = f"""
+    Explain why this food is recommended.
+
+    Food: {food['name']}
+    Context: {context}
+    User Preferences: {user}
+
+    Keep it short and natural.
+    """
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.7
+    )
+
+    return response.choices[0].message["content"]
+
 def generate_response(recommendations):
-    return "Recommended: " + ", ".join([r["name"] for r in recommendations])
+    replies = []
+
+    for food in recommendations:
+        explanation = generate_ai_explanation(food, {}, {})
+        replies.append(f"{food['name']} → {explanation}")
+
+    return replies
