@@ -5,6 +5,7 @@ from services.user_service import get_user_profile
 from services.context_builder import build_context
 from services.recommender import get_food_candidates
 from services.response_generator import generate_response
+from services.response_generator import generate_chat_response
 
 app = FastAPI()
 
@@ -34,7 +35,13 @@ def recommend(req: Request):
     )
 
     # 5. Generate response using top results
-    reply = generate_response(recommendations["items"])
+    # reply = generate_response(recommendations["items"])
+    reply = generate_chat_response(
+        recommendations[:5],
+        intent,
+        context,
+        user
+    )
 
     return {
         "intent": intent,
