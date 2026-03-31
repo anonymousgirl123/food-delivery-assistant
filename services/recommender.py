@@ -1,6 +1,39 @@
 from db.database import SessionLocal
 from db.models import FoodItem
 
+import openai
+import json
+
+def rerank_with_ai(recommendations, intent, context, user):
+    prompt = f"""
+    You are a food recommendation expert.
+
+    Given these recommendations:
+    {recommendations}
+
+    User intent:
+    {intent}
+
+    Context:
+    {context}
+
+    Re-rank the items from best to worst.
+    Return ONLY JSON list.
+    """
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0
+    )
+
+    content = response.choices[0].message["content"]
+
+    try:
+        return json.loads(content)
+    except:
+        return recommendations  # fallback
+
 
 def calculate_score_and_reason(food, intent, user_prefs, context):
     score = 0
@@ -81,6 +114,7 @@ def get_food_candidates(intent, user_prefs={}, context={}):
 
     if intent.get("budget"):
         query = query.filter(FoodItem.price <= intent["budget"])
+    
 
     foods = query.all()
 
@@ -99,16 +133,22 @@ def get_food_candidates(intent, user_prefs={}, context={}):
         })
 
     # sort by score
+
     ranked = sorted(results, key=lambda x: x["score"], reverse=True)
 
-    top_items = ranked[:10]
+    # 🔥 NEW: AI reranking
+    reranked = rerank_with_ai(ranked, intent, context, user_prefs)
 
-    combo = generate_combo_meal(top_items)
+    return reranked[:5]
 
-    return {
-        "items": ranked[:5],
-        "combo": combo
-    }
+    # top_items = ranked[:10]
+
+    # combo = generate_combo_meal(top_items)
+
+    # return {
+    #     "items": ranked[:5],
+    #     "combo": combo
+    # }
 
     # return ranked[:5]
 
