@@ -1,4 +1,6 @@
 import re
+import openai
+import json
 
 def detect_mood(message: str):
     message = message.lower()
@@ -26,12 +28,35 @@ def extract_budget(message: str):
         return int(match.group(1))
     return None
 
+
+
+openai.api_key = "YOUR_API_KEY"
+
 def extract_intent(message: str):
-    intent = {
-        "text": message,
-        "mood": detect_mood(message),
-        "budget": extract_budget(message)
-    }
+    prompt = f"""
+    Extract user intent from the following message.
 
-    return intent
+    Return JSON with:
+    - mood (comfort, healthy, treat, craving, neutral)
+    - budget (number or null)
+    - cuisine (if mentioned)
+    - meal_time (breakfast, lunch, dinner, snack or null)
 
+    Message: "{message}"
+    """
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are an intent extraction engine."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0
+    )
+
+    content = response.choices[0].message["content"]
+
+    try:
+        return json.loads(content)
+    except:
+        return {"mood": "neutral"}
