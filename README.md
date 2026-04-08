@@ -3,7 +3,7 @@
 An intelligent, context-aware food recommendation system that suggests meals based on **weather conditions, user preferences, and location data**, enhanced with AI-driven automation.
 
 ---
-
+ 
 ## 🚀 Overview
 
 Food Delivery Assistant is not just a food search tool — it is a **smart recommendation engine** that adapts to user context in real-time.
