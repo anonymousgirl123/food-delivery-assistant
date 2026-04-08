@@ -2,7 +2,7 @@
 
 An intelligent, context-aware food recommendation system that suggests meals based on **weather conditions, user preferences, and location data**, enhanced with AI-driven automation.
 
----
+-------------------------------------------------------------------------------------------------------------------------------------------
  
 ## 🚀 Overview
 
